@@ -1,14 +1,17 @@
 package kr.co.fastcampus.eatgo.domain;
 
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+@NoArgsConstructor
 public class Restaurant {
 
-    private final Long id;
-    private final String name;
-    private final String address;
+    private  Long id;
+    private  String name;
+    private  String address;
     private List<MenuItem> menuItem = new ArrayList<MenuItem>();
 
     public Restaurant(Long id, String name, String address){
