@@ -1,4 +1,4 @@
-package kr.co.fastcampus.eatgo;
+package kr.co.fastcampus.eatgo.cafe;
 
 import kr.co.fastcampus.eatgo.cafe.Cafe;
 import kr.co.fastcampus.eatgo.cafe.Menu;

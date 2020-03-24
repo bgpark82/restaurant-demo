@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
+
 @WebMvcTest(RestaurantController.class)
 public class RestaurantControllerTest {
 
@@ -34,20 +34,13 @@ public class RestaurantControllerTest {
     @MockBean
     private RestaurantService restaurantService;
 
-    @SpyBean(RestaurantRepositoryImpl.class)
-    private RestaurantRepository restaurantRepository;
-
-    @SpyBean(MenuItemRepositoryImpl.class)
-    private MenuItemRepository menuItemRepository;
-
-
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(new Restaurant(1004L, "Bob zip","Seoul"));
         given(restaurantService.getRestaurants()).willReturn(restaurants);
 
-        mvc.perform(get("/restaurant"))
+        mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")));
@@ -84,7 +77,16 @@ public class RestaurantControllerTest {
                 .content("{\"name\":\"Beryong\",\"address\":\"Busan\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/restaurants/1234"))
-                .andExpect(content().string("{}"));
+                .andExpect(content().string(containsString("Beryong")));
         verify(restaurantService).addRestaurant(any());
+    }
+
+    @Test
+    public void update() throws Exception {
+        mvc.perform(patch("/restaurant/1004")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"Joker bar\",\"address\":\"Busan\"}")
+            ).andExpect(status().isOk());
+        verify(restaurantService).updateRestaurant(1004L, "Joker bar", "Busan");
     }
 }
