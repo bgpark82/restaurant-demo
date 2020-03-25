@@ -11,25 +11,19 @@ import java.util.List;
 @RestController
 public class CafeController {
 
+
     @Autowired
-    private CafeRepository cafeRepository;
-    @Autowired
-    private MenuRepository menuRepository;
+    private CafeService cafeService;
 
 
     @GetMapping("/cafes")
     public List<Cafe> list(){
-        List<Cafe> cafes = cafeRepository.findAll();
-        return cafes;
+        return cafeService.findAll();
     }
 
     @GetMapping("/cafe/{id}")
     public Cafe get(@PathVariable Long id) {
-        Cafe cafe = cafeRepository.findById(id);
-        List<Menu> menus =menuRepository.findByCafeId(id);
-        cafe.setMenus(menus);
-
-        return cafe;
+        return cafeService.findById(id);
     }
 
 
