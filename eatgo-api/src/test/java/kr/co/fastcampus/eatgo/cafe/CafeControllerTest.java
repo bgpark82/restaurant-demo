@@ -3,6 +3,7 @@ package kr.co.fastcampus.eatgo.cafe;
 import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -26,6 +27,9 @@ public class CafeControllerTest {
     @SpyBean(CafeRepositoryImpl.class)
     private CafeRepository cafeRepository;
 
+    @SpyBean(MenuRepositoryImpl.class)
+    private MenuRepository menuRepository;
+
     @Test
     public void list() throws Exception {
         mvc.perform(get("/cafes"))
@@ -41,11 +45,5 @@ public class CafeControllerTest {
                 .andExpect(content().string(containsString("Latte")));
     }
 
-    @Test
-    public void create() throws Exception {
-        mvc.perform(post("/cafes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Beryong\",\"address\":\"Busan\"}"))
-                .andExpect(status().isCreated());
-    }
+
 }

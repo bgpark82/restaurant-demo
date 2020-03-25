@@ -7,7 +7,7 @@ public class Cafe {
     private Long id;
     private String name;
     private String address;
-    private List<Menu> menu = new ArrayList<>();
+    private List<Menu> menus = new ArrayList<>();
 
     public Cafe(Long id, String name,  String address) {
         this.id = id;
@@ -31,9 +31,9 @@ public class Cafe {
         return address;
     }
 
-    public List<Menu> getMenu() { return menu; }
+    public List<Menu> getMenu() { return menus; }
 
-    public void setMenu(Menu menu) {
-        this.menu.add(menu);
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }
