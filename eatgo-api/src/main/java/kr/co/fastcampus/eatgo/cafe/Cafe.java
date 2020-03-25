@@ -15,6 +15,11 @@ public class Cafe {
         this.address = address;
     }
 
+    public Cafe(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
 
     public String getName() { return name; }
 

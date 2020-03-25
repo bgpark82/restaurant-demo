@@ -16,12 +16,18 @@ public class CafeRepositoryImpl implements CafeRepository{
         cafes.add(new Cafe(1004L,"Bien","Seoul"));
     }
 
+    @Override
     public List<Cafe> findAll() {
         return cafes;
     }
 
+    @Override
     public Cafe findById(Long id){
         return cafes.stream().filter(cafe -> cafe.getId().equals(id)).findFirst().get();
+    }
 
+    @Override
+    public Cafe save(Cafe cafe) {
+        return cafe;
     }
 }

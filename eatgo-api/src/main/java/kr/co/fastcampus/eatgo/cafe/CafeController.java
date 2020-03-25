@@ -1,9 +1,8 @@
 package kr.co.fastcampus.eatgo.cafe;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +25,12 @@ public class CafeController {
         cafe.setMenu(new Menu("Latte"));
         return cafe;
     }
+
+    @PostMapping("/cafes")
+    public void post(@RequestBody Cafe resource){
+        cafeRepository.save(new Cafe(resource.getName(), resource.getAddress()));
+
+    }
+
+
 }
