@@ -13,13 +13,16 @@ public class CafeService {
     @Autowired
     private MenuRepository menuRepository;
 
-    public CafeService(CafeRepository cafeRepository) {
+    public CafeService(CafeRepository cafeRepository, MenuRepository menuRepository) {
         this.cafeRepository = cafeRepository;
+        this.menuRepository = menuRepository;
     }
 
 
     public Cafe findById(Long id) {
         Cafe cafe = cafeRepository.findById(id).orElse(null);
+        List<Menu> menus = menuRepository.findByCafeId(id);
+        cafe.setMenus(menus);
         return cafe;
     }
 

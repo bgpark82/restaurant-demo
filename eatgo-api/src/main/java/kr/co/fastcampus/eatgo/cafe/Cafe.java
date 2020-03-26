@@ -1,12 +1,18 @@
 package kr.co.fastcampus.eatgo.cafe;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Cafe {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String address;
+    @Transient
     private List<Menu> menus = new ArrayList<>();
 
     public Cafe(Long id, String name,  String address) {

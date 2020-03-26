@@ -14,7 +14,7 @@ public class CafeTest {
     public void create(){
         Cafe cafe = new Cafe(1004L,"Bien","Seoul");
         List<Menu> menus = new ArrayList<>();
-        menus.add(new Menu(1004L, "Latte"));
+        menus.add(new Menu(1004L, 1004L, "Latte"));
         cafe.setMenus(menus);
         assertThat(cafe.getName(),is("Bien"));
         assertThat(cafe.getId(),is(1004L));

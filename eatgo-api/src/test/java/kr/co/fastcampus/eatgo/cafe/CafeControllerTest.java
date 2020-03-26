@@ -1,15 +1,10 @@
 package kr.co.fastcampus.eatgo.cafe;
 
-import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -28,9 +23,6 @@ public class CafeControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @SpyBean(MenuRepositoryImpl.class)
-    private MenuRepository menuRepository;
 
     @MockBean
     private CafeService cafeService;
@@ -51,7 +43,7 @@ public class CafeControllerTest {
     public void getCafe() throws Exception {
         Cafe cafe = new Cafe(1004L, "Bien", "Seoul");
         List<Menu> menus = new ArrayList<>();
-        Menu menu = new Menu(1004L,"Latte");
+        Menu menu = new Menu(1004L, 1004L, "Latte");
         menus.add(menu);
         cafe.setMenus(menus);
         given(cafeService.findById(1004L)).willReturn(cafe);
