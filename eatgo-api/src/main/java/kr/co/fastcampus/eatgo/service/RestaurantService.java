@@ -1,9 +1,6 @@
 package kr.co.fastcampus.eatgo.service;
 
-import kr.co.fastcampus.eatgo.domain.MenuItem;
-import kr.co.fastcampus.eatgo.domain.MenuItemRepository;
-import kr.co.fastcampus.eatgo.domain.Restaurant;
-import kr.co.fastcampus.eatgo.domain.RestaurantRepository;
+import kr.co.fastcampus.eatgo.domain.*;
 import kr.co.fastcampus.eatgo.exception.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +11,18 @@ import java.util.List;
 @Service
 public class RestaurantService {
 
-    @Autowired
+
     private RestaurantRepository restaurantRepository;
-    @Autowired
+
     private MenuItemRepository menuItemRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
+        this.reviewRepository = reviewRepository;
     }
 
 
@@ -30,6 +31,9 @@ public class RestaurantService {
                 .orElseThrow(()-> new RestaurantNotFoundException(id));
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
+
+        List<Review> reviews = reviewRepository.findAllByRestaurantId(id);
+        restaurant.setReivews(reviews);
         return restaurant;
     }
 
@@ -46,6 +50,7 @@ public class RestaurantService {
     public Restaurant updateRestaurant(long id, String name, String address) {
         Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
         restaurant.updateInformation(name,address);
+
         return restaurant;
     }
 }
