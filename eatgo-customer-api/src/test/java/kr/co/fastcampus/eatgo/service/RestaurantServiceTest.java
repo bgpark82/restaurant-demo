@@ -1,6 +1,7 @@
 package kr.co.fastcampus.eatgo.service;
 
-import kr.co.fastcampus.eatgo.domain.*;
+import kr.co.fastcampus.eatgo.domain.Restaurant;
+import kr.co.fastcampus.eatgo.domain.RestaurantRepository;
 import kr.co.fastcampus.eatgo.exception.RestaurantNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,9 +16,7 @@ import java.util.Optional;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 
 public class RestaurantServiceTest {
@@ -27,38 +26,14 @@ public class RestaurantServiceTest {
     @Mock
     private RestaurantRepository restaurantRepository;
 
-    @Mock
-    private MenuItemRepository menuItemRepository;
-
-    @Mock
-    private ReviewRepository reviewRepository;
 
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        mockMenuItemRepository();
+
         mockRestaurantRepository();
-        mockReviewRepository();
-        restaurantService =  new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
-    }
 
-    private void mockReviewRepository() {
-        Review review = Review.builder()
-                .name("BeRyong")
-                .score(1)
-                .description("Bad")
-                .build();
-
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(review);
-        given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
-    }
-
-    private void mockMenuItemRepository() {
-        List<MenuItem> menuItems = new ArrayList<>();
-        MenuItem menuItem = MenuItem.builder().name("Kimchi").build();
-        menuItems.add(menuItem);
-        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
+        restaurantService =  new RestaurantService(restaurantRepository);
     }
 
     private void mockRestaurantRepository() {
@@ -78,13 +53,7 @@ public class RestaurantServiceTest {
     @Test
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
-        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
-        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
         assertThat(restaurant.getId(),is(1004L));
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
-        assertThat(menuItem.getName(), is("Kimchi"));
-        Review review = restaurant.getReviews().get(0);
-        assertThat(review.getDescription(), is("Bad"));
     }
 
     @Test
