@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(RestaurantController.class)
-public class RestaurantControllerTest {
+public class  RestaurantControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -87,62 +87,5 @@ public class RestaurantControllerTest {
         mvc.perform(get("/restaurant/404"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("{}"));
-    }
-
-
-    @Test
-    public void createWithValidData() throws Exception {
-        given(restaurantService.addRestaurant(any())).will(invocation -> {
-            Restaurant restaurant = invocation.getArgument(0);
-            return Restaurant.builder()
-                    .id(1234L)
-                    .name(restaurant.getName())
-                    .address(restaurant.getAddress())
-                    .build();
-        });
-
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON )
-                .content("{\"name\":\"Beryong\",\"address\":\"Busan\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location","/restaurants/1234"))
-                .andExpect(content().string("{}"));
-        verify(restaurantService).addRestaurant(any());
-    }
-
-    @Test
-    public void createWithInValidData() throws Exception {
-        given(restaurantService.addRestaurant(any())).will(invocation -> {
-            Restaurant restaurant = invocation.getArgument(0);
-            return Restaurant.builder()
-                    .id(1234L)
-                    .name(restaurant.getName())
-                    .address(restaurant.getAddress())
-                    .build();
-        });
-
-        mvc.perform(post("/restaurants")
-                .contentType(MediaType.APPLICATION_JSON )
-                .content("{\"name\":\"\",\"address\":\"\"}"))
-                .andExpect(status().isBadRequest());
-//        verify(restaurantService).addRestaurant(any());
-    }
-
-    @Test
-    public void updateWithValidData() throws Exception {
-        mvc.perform(patch("/restaurant/1004")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"name\":\"Joker bar\",\"address\":\"Busan\"}")
-            ).andExpect(status().isOk());
-        verify(restaurantService).updateRestaurant(1004L, "Joker bar", "Busan");
-    }
-
-    @Test
-    public void updateWithInValidData() throws Exception {
-        mvc.perform(patch("/restaurant/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\" \",\"address\":\"\"}")
-        ).andExpect(status().isBadRequest());
-//      verify(restaurantService).updateRestaurant(1004L, "Joker bar", "Busan");
     }
 }
