@@ -17,7 +17,6 @@ public class RestaurantService {
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
-
     }
 
 
@@ -29,8 +28,8 @@ public class RestaurantService {
         return restaurant;
     }
 
-    public List<Restaurant> getRestaurants(String name) {
-        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContaining(name);
+    public List<Restaurant> getRestaurants(String name, Long categoryId) {
+        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContainingAndCategoryId(name,categoryId);
         return restaurants;
     }
 

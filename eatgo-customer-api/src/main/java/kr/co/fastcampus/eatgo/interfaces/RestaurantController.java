@@ -16,8 +16,8 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
-    public List<Restaurant> list() {
-        List<Restaurant> restaurants = restaurantService.getRestaurants("Seoul");
+    public List<Restaurant> list(@RequestParam String region, @RequestParam Long categoryId) {
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, categoryId);
         return restaurants;
     }
 
