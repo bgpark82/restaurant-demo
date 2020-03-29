@@ -29,8 +29,8 @@ public class RestaurantService {
         return restaurant;
     }
 
-    public List<Restaurant> getRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+    public List<Restaurant> getRestaurants(String name) {
+        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContaining(name);
         return restaurants;
     }
 
