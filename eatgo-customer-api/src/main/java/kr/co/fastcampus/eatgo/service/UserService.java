@@ -1,11 +1,12 @@
 package kr.co.fastcampus.eatgo.service;
 
 import kr.co.fastcampus.eatgo.domain.User;
-
 import kr.co.fastcampus.eatgo.domain.UserRepository;
 import kr.co.fastcampus.eatgo.exception.EmailExistedException;
+import kr.co.fastcampus.eatgo.exception.EmailNotExistedException;
+import kr.co.fastcampus.eatgo.exception.PasswordWrongException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,13 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User registerUser(String email, String name, String password) {
@@ -29,7 +33,7 @@ public class UserService {
             throw  new EmailExistedException(email);
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        BCryptPasswordEncoder passwordEncoder = passwordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
 
         User user = User.builder()
@@ -42,4 +46,21 @@ public class UserService {
         return userRepository.save(user);
 
     }
+
+
+    public User authenticate(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()->new EmailNotExistedException(email));
+
+//        BCryptPasswordEncoder passwordEncoder = passwordEncoder();
+        if(passwordEncoder.matches(password, user.getPassword())){
+            throw new PasswordWrongException();
+        };
+        return user;
+    }
+
+//    private BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
 }
