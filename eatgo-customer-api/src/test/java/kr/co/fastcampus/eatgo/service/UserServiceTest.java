@@ -1,16 +1,22 @@
 package kr.co.fastcampus.eatgo.service;
 
-import kr.co.fastcampus.eatgo.cafe.CafeRepository;
 import kr.co.fastcampus.eatgo.domain.User;
 import kr.co.fastcampus.eatgo.domain.UserRepository;
-import org.junit.Before;
+import kr.co.fastcampus.eatgo.exception.EmailExistedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.validation.constraints.Email;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 class UserServiceTest {
@@ -37,4 +43,20 @@ class UserServiceTest {
         verify(userRepository).save(any());
     }
 
+    @Test
+    public void registerUserWithExistedEmail(){
+        String email = "tester@example.com";
+        String name = "tester";
+        String password = "test";
+
+        assertThrows(EmailExistedException.class,()-> {
+            User mockUser = User.builder().build();
+            given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
+
+            userService.registerUser(email, name, password);
+
+            verify(userRepository, never()).save(any());
+            }
+        );
+    }
 }
