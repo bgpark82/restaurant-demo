@@ -9,11 +9,12 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Entity
+
 @Builder
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class User {
 
     @Id
