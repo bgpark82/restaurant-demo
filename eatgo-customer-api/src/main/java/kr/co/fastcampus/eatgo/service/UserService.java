@@ -16,11 +16,11 @@ import java.util.Optional;
 @Transactional
 public class UserService {
 
-    @Autowired
     UserRepository userRepository;
-    @Autowired
+
     PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,7 +33,7 @@ public class UserService {
             throw  new EmailExistedException(email);
         }
 
-//        BCryptPasswordEncoder passwordEncoder = passwordEncoder();
+        //BCryptPasswordEncoder passwordEncoder = passwordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
 
         User user = User.builder()
@@ -52,8 +52,8 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new EmailNotExistedException(email));
 
-//        BCryptPasswordEncoder passwordEncoder = passwordEncoder();
-        if(passwordEncoder.matches(password, user.getPassword())){
+        //BCryptPasswordEncoder passwordEncoder = passwordEncoder();
+        if(!passwordEncoder.matches(password, user.getPassword())){
             throw new PasswordWrongException();
         };
         return user;

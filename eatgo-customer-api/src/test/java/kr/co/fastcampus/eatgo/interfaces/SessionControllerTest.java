@@ -29,8 +29,10 @@ class SessionControllerTest {
     @Test
     public void createWithValidAttributes() throws Exception {
         String email = "tester@example.com";
-        String password = "password";
-        User mockUser = User.builder().password("ACCESSTOKEN").build();
+        String password = "test";
+
+        User mockUser = User.builder().email(email).password("ACCESSTOKEN").build();
+
         given(userService.authenticate(email,password)).willReturn(mockUser);
 
         mvc.perform(post("/session")
@@ -40,7 +42,7 @@ class SessionControllerTest {
                 .andExpect(header().string("location","/session"))
                 .andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
 
-        verify(userService).authenticate(eq("tester@example.com"),eq("test"));
+        verify(userService).authenticate(eq(email),eq(password));
     }
 
     @Test

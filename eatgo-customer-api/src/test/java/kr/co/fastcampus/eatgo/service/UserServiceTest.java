@@ -78,16 +78,16 @@ class UserServiceTest {
 
         given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
         given(passwordEncoder.matches(any(),any())).willReturn(true);
+
         User user = userService.authenticate(email, password);
 
         assertThat(user.getEmail(), is(email));
-
     }
 
     @Test
     public void authenticateWithNotExistedEmail(){
 
-        String email = "tester@example.com";
+        String email = "x@example.com";
         String password = "test";
 
         assertThrows(EmailNotExistedException.class, () ->{
