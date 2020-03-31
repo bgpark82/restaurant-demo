@@ -45,11 +45,11 @@ public class User {
         level = 0L;
     }
 
-    @JsonIgnore // password를 사용하지 않을 때 안보이도록 설정
-    public String getAccessToken() {
-        if(password == null){
-            return "";
-        }
-        return password.substring(0,10);
-    }
+//    @JsonIgnore // password를 사용하지 않을 때 안보이도록 설정
+//    public String getAccessToken() {
+//        if(password == null){
+//            return "";
+//        }
+//        return password.substring(0,10);
+//    }
 }
