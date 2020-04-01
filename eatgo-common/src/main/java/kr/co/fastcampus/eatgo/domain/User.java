@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +34,8 @@ public class User {
 
     private String password;
 
+    private Long restaurantId;
+
     public boolean isAdmin() {
         return level >= 100;
     }
@@ -45,7 +48,16 @@ public class User {
         level = 0L;
     }
 
-//    @JsonIgnore // password를 사용하지 않을 때 안보이도록 설정
+    public boolean isRestaurantOwner(){
+        return level == 50L;
+    };
+
+    public void setRestaurantId(Long restaurantId) {
+        this.level = 50L;
+        this.restaurantId = restaurantId;
+    }
+
+    //    @JsonIgnore // password를 사용하지 않을 때 안보이도록 설정
 //    public String getAccessToken() {
 //        if(password == null){
 //            return "";
