@@ -49,7 +49,7 @@ public class User {
     }
 
     public boolean isRestaurantOwner(){
-        return level == 50L;
+        return this.level == 50L;
     };
 
     public void setRestaurantId(Long restaurantId) {

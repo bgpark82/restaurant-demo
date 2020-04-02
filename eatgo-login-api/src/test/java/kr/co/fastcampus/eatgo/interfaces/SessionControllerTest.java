@@ -39,7 +39,7 @@ class SessionControllerTest {
 
         Long id = 1004L;
         String name = "John";
-        User mockUser = User.builder().name(name).id(id).build();
+        User mockUser = User.builder().name(name).id(id).level(1L).build();
 
         given(userService.authenticate(email,password)).willReturn(mockUser);
 
